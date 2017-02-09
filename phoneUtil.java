@@ -282,35 +282,23 @@ public class phoneUtil {
 class trans {
 
 
-    public static void transfer(String args) {
-        Map<String, String> map = new HashMap<String, String>();
+        public static void transfer(String args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(args),"UTF-8"));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("1.txt")),"UTF-8"));
 
         /* 读取数据 */
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(args),"UTF-8"));
             String lineTxt = new String();
             while ((lineTxt = br.readLine()) != null) {
-            			System.out.println(lineTxt);
-                        map.put(lineTxt.trim(), "1");
+
+    			System.out.println(lineTxt+' '+"1");
+                bw.write(lineTxt+" encryphone "+ phoneUtil.encryptPhone(lineTxt));
+                bw.newLine();   //换行
             }
             br.close();
-        } catch (Exception e) {
-            System.err.println("read errors :" + e);
-        }
-
-        /* 输出数据 */
-        try {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("1.txt")),
-                                                                          "UTF-8"));
-
-            for (Map.Entry<String, String> m : map.entrySet()) {
-            	System.out.println(m.getKey() + " "+m.getValue());
-                bw.write(m.getKey()+" encryphone "+ phoneUtil.encryptPhone(m.getKey()));
-                bw.newLine();
-            }
             bw.close();
         } catch (Exception e) {
-            System.err.println("write errors :" + e);
+            System.err.println("read errors :" + e);
         }
     }
 }
